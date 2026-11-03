@@ -1,4 +1,6 @@
 # Unreleased Changes
+- Forked and renamed from Latest to Current.
+- Updated project structure, schemes, and build settings to match Current.
 
 # 0.10.3
 Fixes a crash that may occur after updating to 0.10.2.

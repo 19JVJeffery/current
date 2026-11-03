@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import Latest
+@testable import Current
 
 class OSVersionTest: XCTestCase {
 	

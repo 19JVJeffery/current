@@ -14,25 +14,11 @@ You can build Current directly on your machine:
    ```bash
    git clone https://github.com/19JVJeffery/current.git
    ```
-2. Open `Latest.xcodeproj` in Xcode.
-3. Select the `Latest` scheme and hit **Product > Build** (or `Cmd + B`).
+2. Open `Current.xcodeproj` in Xcode.
+3. Select the `Current` scheme and hit **Product > Build** (or `Cmd + B`).
 
 ## Credits
 
 Current is based on [Latest](https://github.com/mangerlahn/latest) by Max Langer.
 
-[1]:	https://hosted.weblate.org/engage/latest/
-[2]:	https://github.com/mangerlahn/latest/issues
-[3]:	https://max.codes/latest/Latest.zip
-[4]:	https://github.com/mangerlahn/Latest/releases
-[5]:	https://github.com/Homebrew/homebrew-cask
-[6]:	https://brew.sh
-[7]:	https://weblate.org/
-[8]:	https://hosted.weblate.org/engage/latest/
-[9]:	https://hosted.weblate.org/engage/latest/
-[10]:	https://github.com/mangerlahn/latest/issues
-[11]:	https://max.codes/latest/donate
-
-[image-1]:	https://hosted.weblate.org/widgets/latest/-/svg-badge.svg
-[image-2]:	./latest.png
-[image-3]:	https://hosted.weblate.org/widgets/latest/-/multi-auto.svg
+[image-2]:	./current.png
