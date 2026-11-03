@@ -1,0 +1,79 @@
+{
+  "features" : [
+    "refractivity"
+  ],
+  "fill" : {
+    "linear-gradient" : [
+      "display-p3:0.24314,0.56870,1.00000,1.00000",
+      "extended-srgb:0.00000,0.53333,1.00000,1.00000"
+    ]
+  },
+  "groups" : [
+    {
+      "blur-material" : null,
+      "layers" : [
+        {
+          "fill" : {
+            "solid" : "srgb:1.00000,1.00000,1.00000,1.00000"
+          },
+          "image-name" : "Vector.svg",
+          "name" : "Vector",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              0.3353384536692374,
+              0.42477543259360573
+            ]
+          }
+        }
+      ],
+      "position" : {
+        "scale" : 1.06,
+        "translation-in-points" : [
+          0,
+          0
+        ]
+      },
+      "refractivity" : {
+        "depth" : 0.5,
+        "enabled" : true,
+        "strength" : 0
+      },
+      "shadow" : {
+        "kind" : "layer-color",
+        "opacity" : 1
+      },
+      "specular" : true,
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    },
+    {
+      "blend-mode" : "multiply",
+      "blur-material" : null,
+      "layers" : [
+        {
+          "blend-mode" : "normal",
+          "image-name" : "olga-thelavart-vS3idIiYxX0-unsplash.jpg",
+          "name" : "olga-thelavart-vS3idIiYxX0-unsplash",
+          "opacity" : 1
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.3
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
+  }
+}

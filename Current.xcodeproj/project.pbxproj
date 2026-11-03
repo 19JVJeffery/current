@@ -80,6 +80,8 @@
 		50FEB87D2B1BE630006FB75D /* OSVersionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FEB87C2B1BE630006FB75D /* OSVersionTest.swift */; };
 		50FEB87F2B1BE67F006FB75D /* VersionSanitizationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FEB87E2B1BE67E006FB75D /* VersionSanitizationTest.swift */; };
 		50FEB8812B1D2402006FB75D /* ExcludedAppIdentifiers.plist in Resources */ = {isa = PBXBuildFile; fileRef = 50FEB8802B1D2402006FB75D /* ExcludedAppIdentifiers.plist */; };
+		ECCAF90B3099FB2B00F6E75E /* Current.icon in Resources */ = {isa = PBXBuildFile; fileRef = ECCAF90A3099FB2B00F6E75E /* Current.icon */; };
+		ECCAF90C3099FB2B00F6E75E /* Current.icon in Resources */ = {isa = PBXBuildFile; fileRef = ECCAF90A3099FB2B00F6E75E /* Current.icon */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -333,6 +335,7 @@
 		50FEB87C2B1BE630006FB75D /* OSVersionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSVersionTest.swift; sourceTree = "<group>"; };
 		50FEB87E2B1BE67E006FB75D /* VersionSanitizationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionSanitizationTest.swift; sourceTree = "<group>"; };
 		50FEB8802B1D2402006FB75D /* ExcludedAppIdentifiers.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ExcludedAppIdentifiers.plist; sourceTree = "<group>"; };
+		ECCAF90A3099FB2B00F6E75E /* Current.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = Current.icon; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -370,6 +373,7 @@
 		50290E681E53EB6A00133E3D = {
 			isa = PBXGroup;
 			children = (
+				ECCAF90A3099FB2B00F6E75E /* Current.icon */,
 				50290E731E53EB6A00133E3D /* Current */,
 				50C81D6A1FBADC5900324C2E /* Tests */,
 				5046AFF21FF6CECD00ABAA97 /* Frameworks */,
@@ -882,6 +886,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				50BC19E328230D41005945E8 /* InfoPlist.strings in Resources */,
+				ECCAF90B3099FB2B00F6E75E /* Current.icon in Resources */,
 				50290E791E53EB6A00133E3D /* Assets.xcassets in Resources */,
 				50C8C85C208A0EE9004FF5D5 /* dsa_pub.pem in Resources */,
 				50FEB8812B1D2402006FB75D /* ExcludedAppIdentifiers.plist in Resources */,
@@ -896,6 +901,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ECCAF90C3099FB2B00F6E75E /* Current.icon in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1306,7 +1312,8 @@
 		50290E811E53EB6A00133E3D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = Current;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -1342,7 +1349,8 @@
 		50290E821E53EB6A00133E3D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = Current;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;

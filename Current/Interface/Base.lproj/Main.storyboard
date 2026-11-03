@@ -590,7 +590,7 @@
                                                             <rect key="frame" x="10" y="0.0" width="389" height="26"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <visualEffectView blendingMode="behindWindow" material="sidebar" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="DVj-Eq-QBv">
+                                                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="DVj-Eq-QBv">
                                                                     <rect key="frame" x="0.0" y="0.0" width="389" height="28"/>
                                                                     <subviews>
                                                                         <textField wantsLayer="YES" focusRingType="none" horizontalHuggingPriority="20" verticalHuggingPriority="750" horizontalCompressionResistancePriority="20" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xhF-6m-YCA">
@@ -608,7 +608,7 @@
                                                                         <constraint firstAttribute="bottom" secondItem="xhF-6m-YCA" secondAttribute="bottom" constant="6" id="X00-7l-vwQ"/>
                                                                         <constraint firstAttribute="trailing" secondItem="xhF-6m-YCA" secondAttribute="trailing" constant="40" id="p42-fq-g7h"/>
                                                                     </constraints>
-                                                                </visualEffectView>
+                                                                </customView>
                                                             </subviews>
                                                             <constraints>
                                                                 <constraint firstAttribute="trailing" secondItem="DVj-Eq-QBv" secondAttribute="trailing" id="QhD-5H-yqc"/>
@@ -824,9 +824,8 @@
                             <constraint firstAttribute="trailing" secondItem="yos-E7-CDu" secondAttribute="trailing" id="QOn-lW-jBV"/>
                             <constraint firstItem="zLf-Z1-wsn" firstAttribute="leading" secondItem="JKX-qd-RUY" secondAttribute="leading" id="VRY-sw-t9v"/>
                             <constraint firstItem="gUd-I6-M7r" firstAttribute="leading" secondItem="JKX-qd-RUY" secondAttribute="leading" constant="20" id="Z5d-wf-g7W"/>
-                            <constraint firstItem="pFN-sP-y2s" firstAttribute="top" secondItem="zLf-Z1-wsn" secondAttribute="bottom" constant="8" symbolic="YES" id="ayY-zN-ich"/>
                             <constraint firstAttribute="trailing" secondItem="zLf-Z1-wsn" secondAttribute="trailing" id="gSz-1J-Go1"/>
-                            <constraint firstItem="yos-E7-CDu" firstAttribute="top" secondItem="pFN-sP-y2s" secondAttribute="bottom" constant="8" symbolic="YES" id="mOK-h5-sYO"/>
+                            <constraint firstItem="yos-E7-CDu" firstAttribute="top" secondItem="JKX-qd-RUY" secondAttribute="top" id="mOK-h5-sYO"/>
                             <constraint firstAttribute="trailing" secondItem="gUd-I6-M7r" secondAttribute="trailing" constant="20" id="txJ-69-wQL"/>
                             <constraint firstAttribute="bottom" secondItem="yos-E7-CDu" secondAttribute="bottom" constant="-1" id="ue4-dZ-PoH"/>
                             <constraint firstAttribute="trailing" secondItem="pFN-sP-y2s" secondAttribute="trailing" constant="20" symbolic="YES" id="zvh-EW-8CN"/>

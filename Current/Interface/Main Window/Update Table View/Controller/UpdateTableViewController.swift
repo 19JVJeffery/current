@@ -57,6 +57,30 @@ class UpdateTableViewController: NSViewController, NSMenuItemValidation, NSTable
 		return nil
 	}
 	
+	/// Visual effect view behind the search field acting as a translucent header
+	private let headerVisualEffectView: NSVisualEffectView = {
+		let view = NSVisualEffectView()
+		view.blendingMode = .withinWindow
+		view.material = .headerView
+		view.state = .followsWindowActiveState
+		view.translatesAutoresizingMaskIntoConstraints = false
+		return view
+	}()
+	
+	/// Separator line at the bottom of the header, visible when content is scrolled under it
+	private let headerSeparatorView: NSBox = {
+		let box = NSBox()
+		box.boxType = .separator
+		box.translatesAutoresizingMaskIntoConstraints = false
+		box.isHidden = true
+		return box
+	}()
+	
+	/// Tracks whether initial scroll position with insets has been set
+	private var hasAppliedInitialScrollInset = false
+	
+	/// Top constraint of the search field
+	private var searchFieldTopConstraint: NSLayoutConstraint?
     
     // MARK: - View Lifecycle
     
@@ -80,6 +104,28 @@ class UpdateTableViewController: NSViewController, NSMenuItemValidation, NSTable
 		if #available(macOS 11, *) {
 			self.updatesLabel.isHidden = true
 		}
+		
+		// Setup header visual effect view and separator
+		self.view.addSubview(self.headerVisualEffectView, positioned: .below, relativeTo: self.searchField)
+		self.headerVisualEffectView.addSubview(self.headerSeparatorView)
+		
+		NSLayoutConstraint.activate([
+			self.headerVisualEffectView.topAnchor.constraint(equalTo: self.view.topAnchor),
+			self.headerVisualEffectView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+			self.headerVisualEffectView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+			self.headerVisualEffectView.bottomAnchor.constraint(equalTo: self.searchField.bottomAnchor, constant: 10),
+			
+			self.headerSeparatorView.leadingAnchor.constraint(equalTo: self.headerVisualEffectView.leadingAnchor),
+			self.headerSeparatorView.trailingAnchor.constraint(equalTo: self.headerVisualEffectView.trailingAnchor),
+			self.headerSeparatorView.bottomAnchor.constraint(equalTo: self.headerVisualEffectView.bottomAnchor),
+			self.headerSeparatorView.heightAnchor.constraint(equalToConstant: 1)
+		])
+		
+		if let scrollView = self.tableView.enclosingScrollView {
+			scrollView.automaticallyAdjustsContentInsets = false
+			scrollView.contentView.postsBoundsChangedNotifications = true
+			NotificationCenter.default.addObserver(self, selector: #selector(scrollViewDidScroll(_:)), name: NSView.boundsDidChangeNotification, object: scrollView.contentView)
+		}
     }
     
     override func viewWillAppear() {
@@ -89,12 +135,54 @@ class UpdateTableViewController: NSViewController, NSMenuItemValidation, NSTable
 		self.updateTitleAndBatch()
 		
 		// Setup search field
-        NSLayoutConstraint(item: self.searchField!, attribute: .top, relatedBy: .equal, toItem: self.view.window?.contentLayoutGuide, attribute: .top, multiplier: 1.0, constant: 1).isActive = true
+		if self.searchFieldTopConstraint == nil {
+			let constraint: NSLayoutConstraint
+			if let contentLayoutGuide = self.view.window?.contentLayoutGuide as? NSLayoutGuide {
+				constraint = self.searchField.topAnchor.constraint(equalTo: contentLayoutGuide.topAnchor, constant: 6)
+			} else {
+				constraint = self.searchField.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 6)
+			}
+			constraint.isActive = true
+			self.searchFieldTopConstraint = constraint
+		}
 		self.view.window?.makeFirstResponder(nil)
+	}
+	
+	override func viewDidLayout() {
+		super.viewDidLayout()
+		self.updateContentInsets()
+	}
+	
+	private func updateContentInsets() {
+		guard let scrollView = self.tableView.enclosingScrollView else { return }
+		let headerHeight = self.headerVisualEffectView.frame.height
+		guard headerHeight > 0 else { return }
+		
+		if scrollView.contentInsets.top != headerHeight {
+			scrollView.automaticallyAdjustsContentInsets = false
+			scrollView.contentInsets = NSEdgeInsets(top: headerHeight, left: 0, bottom: 0, right: 0)
+			scrollView.scrollerInsets = NSEdgeInsets(top: headerHeight, left: 0, bottom: 0, right: 0)
+			
+			if !self.hasAppliedInitialScrollInset {
+				self.hasAppliedInitialScrollInset = true
+				scrollView.contentView.scroll(to: NSPoint(x: 0, y: -headerHeight))
+				scrollView.reflectScrolledClipView(scrollView.contentView)
+			}
+		}
+	}
+	
+	@objc private func scrollViewDidScroll(_ notification: Notification) {
+		guard let scrollView = self.tableView.enclosingScrollView else { return }
+		let headerHeight = self.headerVisualEffectView.frame.height
+		let isScrolledUnder = scrollView.contentView.bounds.origin.y > (-headerHeight + 0.5)
+		if self.headerSeparatorView.isHidden == isScrolledUnder {
+			self.headerSeparatorView.isHidden = !isScrolledUnder
+		}
 	}
 	
 	deinit {
 		AppListSettings.shared.remove(self)
+		NotificationCenter.default.removeObserver(self, name: NSView.boundsDidChangeNotification, object: nil)
 	}
     
     
