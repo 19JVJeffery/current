@@ -11,7 +11,7 @@ import AppKit
 extension App {
 	
 	/// The source of update information.
-	enum Source: String, Equatable {
+	enum Source: String, Equatable, CaseIterable {
 		/// No known source had information about this app. It is unsupported by the update checker.
 		case none
 		
@@ -23,6 +23,11 @@ extension App {
 		
 		/// Homebrew is the update source.
 		case homebrew
+		
+		/// The concrete update platforms that can be toggled by the user.
+		static var configurableSources: [App.Source] {
+			return [.appStore, .sparkle, .homebrew]
+		}
 		
 		/// The icon representing the source.
 		var sourceIcon: NSImage? {
@@ -49,7 +54,20 @@ extension App {
 				return NSLocalizedString("AppStoreSource", comment: "The source name of apps loaded from the App Store.")
 			case .homebrew:
 				return NSLocalizedString("HomebrewSource", comment: "The source name for apps checked via the Homebrew package manager.")
-				
+			}
+		}
+		
+		/// Detailed description of the source for settings.
+		var sourceDescription: String? {
+			switch self {
+			case .none:
+				return nil
+			case .appStore:
+				return NSLocalizedString("AppStoreSourceDescription", comment: "Description for Mac App Store update source.")
+			case .sparkle:
+				return NSLocalizedString("SparkleSourceDescription", comment: "Description for Sparkle update source.")
+			case .homebrew:
+				return NSLocalizedString("HomebrewSourceDescription", comment: "Description for Homebrew Cask update source.")
 			}
 		}
 	}

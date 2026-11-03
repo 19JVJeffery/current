@@ -14,7 +14,7 @@
       "layers" : [
         {
           "fill" : {
-            "solid" : "srgb:1.00000,1.00000,1.00000,1.00000"
+            "solid" : "srgb:1.00000,1.00000,0.00000,1.00000"
           },
           "image-name" : "Vector.svg",
           "name" : "Vector",
@@ -60,6 +60,13 @@
           "opacity" : 1
         }
       ],
+      "position" : {
+        "scale" : 2,
+        "translation-in-points" : [
+          0,
+          0
+        ]
+      },
       "shadow" : {
         "kind" : "neutral",
         "opacity" : 0.5

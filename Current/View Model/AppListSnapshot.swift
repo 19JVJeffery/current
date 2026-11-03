@@ -17,38 +17,69 @@ struct AppListSnapshot {
 	/// The query after which apps can be filtered
 	let filterQuery: String?
 	
+	/// The active filter criteria (e.g. source, status)
+	let filter: AppListFilter
+	
 	/// The apps from which the content is created
 	let apps: [App]
 	
-	/// Initializes the snapshot with the given list of apps and filter query.
-	init(withApps apps: [App], filterQuery: String?) {
+	/// Initializes the snapshot with the given list of apps, filter query, and filter criteria.
+	init(withApps apps: [App], filterQuery: String? = nil, filter: AppListFilter = .default) {
 		self.filterQuery = filterQuery
+		self.filter = filter
 		self.apps = apps
-		self.entries = Self.generateEntries(from: apps, filterQuery: filterQuery)
+		self.entries = Self.generateEntries(from: apps, filterQuery: filterQuery, filter: filter)
 	}
 	
 	/// Returns a new snapshot containing an updated filter query.
 	func updated(with filterQuery: String?) -> AppListSnapshot {
-		return AppListSnapshot(withApps: self.apps, filterQuery: filterQuery)
+		return AppListSnapshot(withApps: self.apps, filterQuery: filterQuery, filter: self.filter)
+	}
+	
+	/// Returns a new snapshot containing updated filter criteria.
+	func updated(with filter: AppListFilter) -> AppListSnapshot {
+		return AppListSnapshot(withApps: self.apps, filterQuery: self.filterQuery, filter: filter)
 	}
 	
 	/// Returns an updated snapshot.
 	func updated() -> AppListSnapshot {
-		return AppListSnapshot(withApps: self.apps, filterQuery: self.filterQuery)
+		return AppListSnapshot(withApps: self.apps, filterQuery: self.filterQuery, filter: self.filter)
 	}
 	
 	/// The user-facable, sorted and filtered list of apps and sections. Observers of the data store will be notified, when this list changes.
 	let entries: [Entry]
 	
 	/// Sorts and filters all available apps based on the given filter criteria.
-	private static func generateEntries(from apps: [App], filterQuery: String?) -> [Entry] {
+	private static func generateEntries(from apps: [App], filterQuery: String?, filter: AppListFilter) -> [Entry] {
 		// Mutable copy
 		var visibleApps = apps
 		
 		visibleApps = visibleApps.filter { app in
+			// Filter out disabled sources from settings
+			if !UpdateCheckSettings.shared.isSourceEnabled(app.source) {
+				return false
+			}
+			
 			// Apply filter query
 			if let filterQuery = filterQuery, !app.name.localizedCaseInsensitiveContains(filterQuery) {
 				return false
+			}
+			
+			// Apply source filter
+			if let source = filter.source, app.source != source {
+				return false
+			}
+			
+			// Apply status filter
+			switch filter.status {
+			case .all:
+				break
+			case .updatesOnly:
+				if !app.updateAvailable || app.isIgnored { return false }
+			case .installedOnly:
+				if app.updateAvailable || app.isIgnored { return false }
+			case .ignoredOnly:
+				if !app.isIgnored { return false }
 			}
 
 			// Filter installed updates

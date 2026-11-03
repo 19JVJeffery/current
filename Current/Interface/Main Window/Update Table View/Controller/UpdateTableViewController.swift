@@ -81,6 +81,29 @@ class UpdateTableViewController: NSViewController, NSMenuItemValidation, NSTable
 	
 	/// Top constraint of the search field
 	private var searchFieldTopConstraint: NSLayoutConstraint?
+	
+	/// Button for filtering the app list by source and status
+	private lazy var filterButton: NSButton = {
+		let button = NSButton(frame: .zero)
+		button.bezelStyle = .texturedRounded
+		button.isBordered = false
+		button.imagePosition = .imageOnly
+		button.image = NSImage(systemSymbolName: "line.3.horizontal.decrease.circle", accessibilityDescription: NSLocalizedString("FilterApps", comment: "Filter apps button accessibility description"))
+		button.contentTintColor = .secondaryLabelColor
+		button.target = self
+		button.action = #selector(filterButtonTapped(_:))
+		button.translatesAutoresizingMaskIntoConstraints = false
+		return button
+	}()
+	
+	/// The current active filter for the app list
+	private var activeFilter = AppListFilter.default {
+		didSet {
+			updateFilterButtonAppearance()
+			scheduleTableViewUpdate(with: snapshot.updated(with: activeFilter), animated: true)
+			scrubber?.reloadData()
+		}
+	}
     
     // MARK: - View Lifecycle
     
@@ -95,9 +118,10 @@ class UpdateTableViewController: NSViewController, NSMenuItemValidation, NSTable
         self.tableView.menu = self.tableViewMenu
 		
 		AppListSettings.shared.add(self, handler: self.updateSnapshot)
+		UpdateCheckSettings.shared.add(self, handler: self.updateSnapshot)
         
 		UpdateCheckCoordinator.shared.appProvider.addObserver(self) { newValue in
-			self.scheduleTableViewUpdate(with: AppListSnapshot(withApps: newValue, filterQuery: self.snapshot.filterQuery), animated: true)
+			self.scheduleTableViewUpdate(with: AppListSnapshot(withApps: newValue, filterQuery: self.snapshot.filterQuery, filter: self.activeFilter), animated: true)
 			self.updateTitleAndBatch()
 		}
 		
@@ -105,9 +129,10 @@ class UpdateTableViewController: NSViewController, NSMenuItemValidation, NSTable
 			self.updatesLabel.isHidden = true
 		}
 		
-		// Setup header visual effect view and separator
+		// Setup header visual effect view, separator, and filter button
 		self.view.addSubview(self.headerVisualEffectView, positioned: .below, relativeTo: self.searchField)
 		self.headerVisualEffectView.addSubview(self.headerSeparatorView)
+		self.view.addSubview(self.filterButton, positioned: .above, relativeTo: self.headerVisualEffectView)
 		
 		NSLayoutConstraint.activate([
 			self.headerVisualEffectView.topAnchor.constraint(equalTo: self.view.topAnchor),
@@ -118,7 +143,13 @@ class UpdateTableViewController: NSViewController, NSMenuItemValidation, NSTable
 			self.headerSeparatorView.leadingAnchor.constraint(equalTo: self.headerVisualEffectView.leadingAnchor),
 			self.headerSeparatorView.trailingAnchor.constraint(equalTo: self.headerVisualEffectView.trailingAnchor),
 			self.headerSeparatorView.bottomAnchor.constraint(equalTo: self.headerVisualEffectView.bottomAnchor),
-			self.headerSeparatorView.heightAnchor.constraint(equalToConstant: 1)
+			self.headerSeparatorView.heightAnchor.constraint(equalToConstant: 1),
+			
+			self.searchField.trailingAnchor.constraint(equalTo: self.filterButton.leadingAnchor, constant: -8),
+			self.filterButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16),
+			self.filterButton.centerYAnchor.constraint(equalTo: self.searchField.centerYAnchor),
+			self.filterButton.widthAnchor.constraint(equalToConstant: 26),
+			self.filterButton.heightAnchor.constraint(equalToConstant: 26)
 		])
 		
 		if let scrollView = self.tableView.enclosingScrollView {
@@ -180,8 +211,89 @@ class UpdateTableViewController: NSViewController, NSMenuItemValidation, NSTable
 		}
 	}
 	
+	// MARK: - Filter Menu
+	
+	@objc private func filterButtonTapped(_ sender: NSButton) {
+		let menu = NSMenu()
+		
+		// Sources Header
+		let sourcesHeader = NSMenuItem(title: NSLocalizedString("FilterSourcesHeader", comment: "Sources header in filter menu"), action: nil, keyEquivalent: "")
+		sourcesHeader.isEnabled = false
+		menu.addItem(sourcesHeader)
+		
+		// All Sources item
+		let allSourcesItem = NSMenuItem(title: NSLocalizedString("FilterAllSources", comment: "Show all sources"), action: #selector(selectSourceFilter(_:)), keyEquivalent: "")
+		allSourcesItem.target = self
+		allSourcesItem.representedObject = nil
+		allSourcesItem.state = (self.activeFilter.source == nil) ? .on : .off
+		menu.addItem(allSourcesItem)
+		
+		// Configurable sources: Mac App Store, Sparkle, Homebrew
+		for source in App.Source.configurableSources {
+			guard UpdateCheckSettings.shared.isSourceEnabled(source), let name = source.sourceName else { continue }
+			let item = NSMenuItem(title: name, action: #selector(selectSourceFilter(_:)), keyEquivalent: "")
+			item.target = self
+			item.representedObject = source
+			item.image = source.sourceIcon?.copy() as? NSImage
+			item.image?.size = NSSize(width: 16, height: 16)
+			item.state = (self.activeFilter.source == source) ? .on : .off
+			menu.addItem(item)
+		}
+		
+		menu.addItem(NSMenuItem.separator())
+		
+		// Status Header
+		let statusHeader = NSMenuItem(title: NSLocalizedString("FilterStatusHeader", comment: "Status header in filter menu"), action: nil, keyEquivalent: "")
+		statusHeader.isEnabled = false
+		menu.addItem(statusHeader)
+		
+		for status in AppListFilter.Status.allCases {
+			let item = NSMenuItem(title: status.displayName, action: #selector(selectStatusFilter(_:)), keyEquivalent: "")
+			item.target = self
+			item.representedObject = status
+			item.state = (self.activeFilter.status == status) ? .on : .off
+			menu.addItem(item)
+		}
+		
+		if !self.activeFilter.isDefault {
+			menu.addItem(NSMenuItem.separator())
+			let resetItem = NSMenuItem(title: NSLocalizedString("ResetFilter", comment: "Reset filters option"), action: #selector(resetFilter(_:)), keyEquivalent: "")
+			resetItem.target = self
+			menu.addItem(resetItem)
+		}
+		
+		let location = NSPoint(x: 0, y: sender.bounds.height + 4)
+		menu.popUp(positioning: nil, at: location, in: sender)
+	}
+	
+	@objc private func selectSourceFilter(_ sender: NSMenuItem) {
+		var filter = self.activeFilter
+		filter.source = sender.representedObject as? App.Source
+		self.activeFilter = filter
+	}
+	
+	@objc private func selectStatusFilter(_ sender: NSMenuItem) {
+		if let status = sender.representedObject as? AppListFilter.Status {
+			var filter = self.activeFilter
+			filter.status = status
+			self.activeFilter = filter
+		}
+	}
+	
+	@objc private func resetFilter(_ sender: NSMenuItem) {
+		self.activeFilter = .default
+	}
+	
+	private func updateFilterButtonAppearance() {
+		let isFiltered = !self.activeFilter.isDefault
+		let symbolName = isFiltered ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle"
+		self.filterButton.image = NSImage(systemSymbolName: symbolName, accessibilityDescription: NSLocalizedString("FilterApps", comment: "Filter apps button accessibility description"))
+		self.filterButton.contentTintColor = isFiltered ? .controlAccentColor : .secondaryLabelColor
+	}
+	
 	deinit {
 		AppListSettings.shared.remove(self)
+		UpdateCheckSettings.shared.remove(self)
 		NotificationCenter.default.removeObserver(self, name: NSView.boundsDidChangeNotification, object: nil)
 	}
     

@@ -38,6 +38,7 @@
 		5073753F278998A300F371D8 /* AppLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5073753E278998A300F371D8 /* AppLibrary.swift */; };
 		507375572789AB0300F371D8 /* AppListSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507375562789AB0300F371D8 /* AppListSnapshot.swift */; };
 		50737559278B0A7400F371D8 /* AppListSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50737558278B0A7400F371D8 /* AppListSettings.swift */; };
+		5073755B278B0A7400F371D8 /* AppListFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5073755A278B0A7400F371D8 /* AppListFilter.swift */; };
 		508323E3257824AA000BBA13 /* DisplayLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508323E0257824A9000BBA13 /* DisplayLink.swift */; };
 		508323E4257824AA000BBA13 /* UpdateButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508323E1257824A9000BBA13 /* UpdateButton.swift */; };
 		508323E5257824AA000BBA13 /* UpdateButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508323E2257824AA000BBA13 /* UpdateButtonCell.swift */; };
@@ -66,6 +67,7 @@
 		50BEF14E2AC972B40052C417 /* UpdateRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BEF14D2AC972B40052C417 /* UpdateRepository.swift */; };
 		50C59D692D1F182B005BC36B /* SettingsTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59D682D1F182B005BC36B /* SettingsTabViewController.swift */; };
 		50C59D6D2D1F54BF005BC36B /* GeneralSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59D6C2D1F54B5005BC36B /* GeneralSettingsViewController.swift */; };
+		50C59D6F2D1F54BF005BC36B /* SourcesSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59D6E2D1F54BF005BC36B /* SourcesSettingsViewController.swift */; };
 		50C81D741FBADC9100324C2E /* VersionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C81D731FBADC9100324C2E /* VersionTest.swift */; };
 		50C857402B25CF7500F5BF0B /* UpdateRepositoryCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C8573F2B25CF7500F5BF0B /* UpdateRepositoryCache.swift */; };
 		50C8C85C208A0EE9004FF5D5 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 50C8C85B208A0EE9004FF5D5 /* dsa_pub.pem */; };
@@ -203,6 +205,7 @@
 		5073753E278998A300F371D8 /* AppLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLibrary.swift; sourceTree = "<group>"; };
 		507375562789AB0300F371D8 /* AppListSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppListSnapshot.swift; sourceTree = "<group>"; };
 		50737558278B0A7400F371D8 /* AppListSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppListSettings.swift; sourceTree = "<group>"; };
+		5073755A278B0A7400F371D8 /* AppListFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppListFilter.swift; sourceTree = "<group>"; };
 		507AEEEF284E0F0900A5CCBC /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
 		507AEF05284E0F1500A5CCBC /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		507AEF06284E0F1800A5CCBC /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ru; path = ru.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
@@ -264,6 +267,7 @@
 		50C36372287A22E5003965E1 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; };
 		50C59D682D1F182B005BC36B /* SettingsTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTabViewController.swift; sourceTree = "<group>"; };
 		50C59D6C2D1F54B5005BC36B /* GeneralSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettingsViewController.swift; sourceTree = "<group>"; };
+		50C59D6E2D1F54BF005BC36B /* SourcesSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourcesSettingsViewController.swift; sourceTree = "<group>"; };
 		50C81D691FBADC5900324C2E /* Current Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Current Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		50C81D6D1FBADC5900324C2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50C81D731FBADC9100324C2E /* VersionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionTest.swift; sourceTree = "<group>"; };
@@ -458,6 +462,7 @@
 				50C59D682D1F182B005BC36B /* SettingsTabViewController.swift */,
 				50C59D6A2D1F1AEE005BC36B /* General */,
 				50C59D6B2D1F1AF7005BC36B /* Locations */,
+				50C59D702D1F54BF005BC36B /* Sources */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -615,6 +620,7 @@
 		50A8D2C927D2B071004DBA05 /* View Model */ = {
 			isa = PBXGroup;
 			children = (
+				5073755A278B0A7400F371D8 /* AppListFilter.swift */,
 				50737558278B0A7400F371D8 /* AppListSettings.swift */,
 				507375562789AB0300F371D8 /* AppListSnapshot.swift */,
 				5058BA3921202BA7003F332B /* IconCache.swift */,
@@ -622,6 +628,14 @@
 				50BEF14B2AC2CB110052C417 /* WebContentLoader.swift */,
 			);
 			path = "View Model";
+			sourceTree = "<group>";
+		};
+				50C59D702D1F54BF005BC36B /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				50C59D6E2D1F54BF005BC36B /* SourcesSettingsViewController.swift */,
+			);
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		50C59D6A2D1F1AEE005BC36B /* General */ = {
@@ -937,6 +951,7 @@
 			files = (
 				509735502798D17E00FFE809 /* Observable.swift in Sources */,
 				509512141FF362A1003D2D7F /* Version.swift in Sources */,
+				5073755B278B0A7400F371D8 /* AppListFilter.swift in Sources */,
 				50737559278B0A7400F371D8 /* AppListSettings.swift in Sources */,
 				504FB4A92B76CA28009C73E9 /* UpdateCheckSettings.swift in Sources */,
 				509512361FF36388003D2D7F /* MainWindowController.swift in Sources */,
@@ -990,6 +1005,7 @@
 				509512151FF362A1003D2D7F /* Update.swift in Sources */,
 				5087CD2D22F6E06B0013354C /* SparkleUpdateOperation.swift in Sources */,
 				50C59D6D2D1F54BF005BC36B /* GeneralSettingsViewController.swift in Sources */,
+				50C59D6F2D1F54BF005BC36B /* SourcesSettingsViewController.swift in Sources */,
 				50C857402B25CF7500F5BF0B /* UpdateRepositoryCache.swift in Sources */,
 				50A8D2B327D2B063004DBA05 /* ReleaseNotesProvider.swift in Sources */,
 				509C4ABC2AD1FFCC00E9C2E1 /* FailableDecodable.swift in Sources */,

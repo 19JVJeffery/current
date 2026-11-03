@@ -36,6 +36,18 @@ class SettingsTabViewController: NSTabViewController {
 	
 	// MARK: - View Lifecycle
 	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		
+		// Add Sources tab item between General and Locations
+		let sourcesController = SourcesSettingsViewController()
+		sourcesController.title = NSLocalizedString("SourcesTabTitle", comment: "Title for Sources settings tab")
+		let sourcesTabItem = NSTabViewItem(viewController: sourcesController)
+		sourcesTabItem.label = NSLocalizedString("SourcesTabTitle", comment: "Title for Sources settings tab")
+		sourcesTabItem.image = NSImage(systemSymbolName: "shippingbox", accessibilityDescription: "Sources")
+		insertTabViewItem(sourcesTabItem, at: 1)
+	}
+	
 	override func viewWillAppear() {
 		super.viewWillAppear()
 		prepareForPresentation(of: tabView.selectedTabViewItem)
@@ -43,7 +55,9 @@ class SettingsTabViewController: NSTabViewController {
 		// Fix icons for old OSes
 		if #unavailable(macOS 11.0) {
 			tabView.tabViewItems[0].image = NSImage(named: NSImage.preferencesGeneralName)
-			tabView.tabViewItems[1].image = NSImage(named: "PreferencesLocation")
+			if tabView.tabViewItems.count > 2 {
+				tabView.tabViewItems[2].image = NSImage(named: "PreferencesLocation")
+			}
 		}
 	}
 	

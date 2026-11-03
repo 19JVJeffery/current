@@ -140,13 +140,19 @@ class UpdateCheckCoordinator {
 
 extension UpdateCheckCoordinator {
 	
-	/// List of available update checking operations.
+	/// List of available update checking operations based on active settings.
 	private static var availableOperations: [UpdateCheckerOperation.Type] {
-		return [
-			MacAppStoreUpdateCheckerOperation.self,
-			SparkleUpdateCheckerOperation.self,
-			HomebrewCheckerOperation.self
-		]
+		var operations = [UpdateCheckerOperation.Type]()
+		if UpdateCheckSettings.shared.isAppStoreEnabled {
+			operations.append(MacAppStoreUpdateCheckerOperation.self)
+		}
+		if UpdateCheckSettings.shared.isSparkleEnabled {
+			operations.append(SparkleUpdateCheckerOperation.self)
+		}
+		if UpdateCheckSettings.shared.isHomebrewEnabled {
+			operations.append(HomebrewCheckerOperation.self)
+		}
+		return operations
 	}
 	
 	/// Returns the update source for the app at the given url.
