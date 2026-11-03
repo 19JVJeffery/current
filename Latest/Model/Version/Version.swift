@@ -35,7 +35,10 @@ struct Version : Hashable, Comparable {
 	// MARK: - Comparisons
 	
 	static func ==(lhs: Version, rhs: Version) -> Bool {
-		compare(lhs, rhs) == .equal
+		if lhs.versionNumber == rhs.versionNumber && lhs.buildNumber == rhs.buildNumber {
+			return true
+		}
+		return compare(lhs, rhs) == .equal
 	}
 	
 	static func <(lhs: Version, rhs: Version) -> Bool {

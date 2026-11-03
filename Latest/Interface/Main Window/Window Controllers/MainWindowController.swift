@@ -55,7 +55,7 @@ class MainWindowController: NSWindowController, NSMenuItemValidation, NSMenuDele
         super.windowDidLoad()
     
 		self.window?.titlebarAppearsTransparent = true
-		self.window?.title = Bundle.main.localizedInfoDictionary?[kCFBundleNameKey as String] as! String
+		self.window?.title = (Bundle.main.localizedInfoDictionary?[kCFBundleNameKey as String] as? String) ?? (Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String) ?? "Current"
 
 		if #available(macOS 11.0, *) {
 			self.window?.toolbarStyle = .unified
@@ -105,7 +105,7 @@ class MainWindowController: NSWindowController, NSMenuItemValidation, NSMenuDele
 	}
     
 	@IBAction func visitWebsite(_ sender: NSMenuItem?) {
-		NSWorkspace.shared.open(URL(string: "https://max.codes/latest")!)
+		NSWorkspace.shared.open(URL(string: "https://github.com/19JVJeffery/current")!)
     }
 	
 	@IBAction func donate(_ sender: NSMenuItem?) {
